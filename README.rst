@@ -1,7 +1,7 @@
 Prude
 =====
 
-`prude` is a generic C++ annalysing code to check language error (english).
+`prude` is a generic code annalyser to check ```language``` error. The ```language``` check is the english.
 
 
 .. image:: https://badge.fury.io/py/prude.png
@@ -14,45 +14,16 @@ Release (master)
     :target: https://travis-ci.org/HeeroYui/prude
 
 
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=master&tag=Linux
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=master&tag=MacOs
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=master&tag=Mingw
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-
-
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=master&tag=Android
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=master&tag=IOs
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-
-
 Developement (dev)
 ------------------
 
 .. image:: https://travis-ci.org/HeeroYui/prude.svg?branch=dev
     :target: https://travis-ci.org/HeeroYui/prude
 
-
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=dev&tag=Linux
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=dev&tag=MacOs
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=dev&tag=Mingw
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-
-
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=dev&tag=Android
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-.. image:: http://atria-soft.com/ci/build/HeeroYui/prude.svg?branch=dev&tag=IOs
-    :target: http://atria-soft.com/ci/HeeroYui/prude
-
-
 Instructions
 ------------
 
-This is a tool to annalyse C, C++ file and determone if it have some english word that does not exist.
+This is a tool to annalyse C, C++ file and determine if it have some english word that does not exist.
 
 
 Prude is under a FREE license that can be found in the COPYING file.
@@ -62,11 +33,6 @@ git repository
 --------------
 
 http://github.com/HeeroYui/prude/
-
-Documentation
--------------
-
-http://github.io/HeeroYui/prude/
 
 Installation
 ------------
@@ -89,6 +55,72 @@ Install pip on MacOs:
 
   sudo easy_install pip
 
+developpement for prude:
+
+  git clone http://github.com/HeeroYui/prude/
+  cd prude
+  ./setup.py develop --user
+
+Documentation
+-------------
+
+Usage
+******
+
+Go to your coding directory and execute:
+
+  prude yourFileToParce.cpp
+  # OR (multiple files)
+  prude yourFileToParce.cpp other_file.py and.txt
+  # simply the path
+  prude .
+
+You can use some options:
+
+  --color/-C to have beautifull color check
+  --recursive/-r Parse all under directories
+
+Create exceptions:
+******************
+
+prude parse all upper folder to find all file ".prude_*" and add it in the list of exceptions error.
+
+The search end when find the file ".prude".
+
+you can have:
+
+  root_path
+    --> .prude
+    --> .prude_lua
+    --> .prude_tinyxml
+    --> module
+          --> submodule
+                --> .prude_local
+                --> .prude_local2
+                --> my_file_cpp.cpp
+          --> sub_second
+                --> file_c.c
+
+The check of the file ```my_file_cpp.cpp``` use all the .prude* file and the file ```file_c.c``` only use the file on the root_path
+
+A prude file is contituated like:
+
+  * ```#``` Comment the line
+  * ```+``` Use the end of the line to check the exact match of the string (ex: +MY_VariableStupidName)
+  * direct element is use to comare each word in lower case to exclude error on it (ex: destructor)
+  * ```!``` Command to apply at the configuration.
+    - ```!NO_CAPITAL_LETTER``` ==> disable the check of the word in capital letter
+    - ```!CAPITAL_LETTER``` ==> enable the check of the word in capital letter (default)
+
+Some tricky things (removed because it is errored at the declaration and no more need in library using it):
+
+  * The namespace call are disable (ex namespace::prout)
+  * The parameter access are disable (ex: variable.hello() or variable->hello())
+  * The "#include ..." and the "# include ..."
+
+Now you can play.
+
+Note: in the http://github.com/HeeroYui/prude/common/ you have some common C library that declare stupid thing in global...
 
 License (APACHE v2.0)
 ---------------------
