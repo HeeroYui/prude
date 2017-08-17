@@ -61,7 +61,8 @@ generic_cpp_type = [
 	"bvec2",
 	"bvec3",
 	"Edouard",
-	"DUPIN"
+	"DUPIN",
+	"__asm__",
 ]
 
 tolerate_words = [
@@ -74,10 +75,11 @@ tolerate_words = [
 	
 	# classicle programation achronimes:
 	"pc", "cpu", "gpio", "io", "proc", "ctrl", "rx", "tx", "msg", "async", "sync", "ack", "src", "freq",
-	"ui", "params", "ip", "log", "udp", "tcp", "ftp",
+	"ui", "params", "ip", "log", "udp", "tcp", "ftp", "led", "leds", "isr", "dsr", "irq", "wifi", "spi", "ic",
 	"unicode", "utf", "xml", "json", "bmp", "jpg", "jpeg", "tga", "gif", "http", "https",
 	"sys", "arg", "args", "argc", "argv", "init", "main", "fnmatch", "env", "len", "desc", "str",
-	"cmd", "dir", "bsy", "id", 
+	"cmd", "dir", "bsy", "id", "destructor", "utils", "configs", "config", "crc", "rgb", "bootloader", "rom", "fs",
+	"todo",
 	#classical libraries
 	"lua",
 	
@@ -85,7 +87,7 @@ tolerate_words = [
 	"param",
 	
 	#language word:
-	"ifdef", "ifndef","endif", "elif",
+	"ifdef", "ifndef","endif", "elif", "elseif",
 	
 	# licences:
 	"mpl", "bsd", "lgpl", "gpl", 
@@ -93,6 +95,7 @@ tolerate_words = [
 	# units:
 	"hz", "khz", "mhz", "thz",
 	"ms", "us", "ns", "min", "sec",
+	"mv", "kv",
 	
 	# some hewxa values:
 	"xf", "xff", "xfff", "xffff", "xfffff", "xffffff",
@@ -101,11 +104,16 @@ tolerate_words = [
 	"xll",
 	#libc funtions
 	"memcpy", "strncpy", "printf", "sprintf", "fopen", "malloc", "calloc", "kalloc",
-	"noinline", "ramtext", "constexpr", "typename", "inline", "memet",
+	"noinline", "ramtext", "constexpr", "typename", "inline", "memset", "getchar", "putchar",
+	"fread", "fwrite", "gets", "puts",
+	#pb with number parsing:
+	"ull",
+	
 ]
 
 application_filter = None
 
+previous_sugestion = {}
 
 def annalyse(filename):
 	global application_filter
@@ -243,7 +251,7 @@ def annalyse(filename):
 				debug.extreme_verbose("reject global names " + elem["word"]);
 				continue
 			for elem_sub in elem["word-list"]:
-				if application_filter[0]["check-capital"]:
+				if application_filter[0]["check-capital"] == False:
 					capital = True
 					for elemmm in elem_sub[1]:
 						if elemmm in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
@@ -272,7 +280,11 @@ def annalyse(filename):
 					debug.print_compilator(filename + ":" + str(elem["line-id"]) + ":error: unknown word: '" + tmp_elem + "'")
 					debug.print_compilator("    '" + str(elem["line"]) + "'")
 					debug.print_compilator("    " + " "*(elem["pos"]+elem_sub[0]) + "^")
-					list_of_words = difflib.get_close_matches(tmp_elem, english.list_english_word)
+					if tmp_elem in previous_sugestion:
+						list_of_words = previous_sugestion[tmp_elem]
+					else:
+						list_of_words = difflib.get_close_matches(tmp_elem, english.list_english_word)
+						previous_sugestion[tmp_elem] = list_of_words
 					if len(list_of_words) != 0:
 						debug.print_compilator("                try: " + str(list_of_words))
 	if number_of_error != 0:

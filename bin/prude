@@ -81,6 +81,8 @@ prude.init()
 
 actionDone = False;
 
+summary = []
+
 # parse all argument
 number_of_error = 0
 for argument in localArgument:
@@ -93,7 +95,39 @@ for argument in localArgument:
 			debug.warning("Can not understand argument : '" + argument.get_option_name() + "'")
 			usage()
 			break;
-		number_of_error += module.annalyse(argument_value)
+		if os.path.isfile(argument_value) == True:
+			# Single file:
+			tmp_count_error = module.annalyse(argument_value)
+			summary.append([argument_value, tmp_count_error])
+			number_of_error += tmp_count_error
+		else:
+			# a full path
+			list_files = os.listdir(argument_value)
+			real_list = []
+			for ff_file in list_files:
+				if os.path.isfile(os.path.join(argument_value,ff_file)) == False:
+					continue
+				if     len(ff_file) > 3 \
+				   and (    ff_file[-4:].lower() == ".cpp" \
+				         or ff_file[-4:].lower() == ".hpp" \
+				         or ff_file[-4:].lower() == ".c++" \
+				         or ff_file[-2:].lower() == ".c" \
+				         or ff_file[-4:].lower() == ".h++" \
+				         or ff_file[-2:].lower() == ".h" \
+				         or ff_file[-3:].lower() == ".hh" \
+				         or ff_file[-3:].lower() == ".cc" \
+				         or ff_file[-3:].lower() == ".py" \
+				         or ff_file[-4:].lower() == ".lua" \
+				         or ff_file[-3:].lower() == ".md"):
+					real_list.append(os.path.join(argument_value,ff_file))
+			# sort list to have all time the same order.
+			real_list.sort()
+			# TODO: Add filter if needed.
+			for ff_file in real_list:
+				debug.info("-----------------------------------------------")
+				tmp_count_error = module.annalyse(ff_file)
+				summary.append([ff_file, tmp_count_error])
+				number_of_error += tmp_count_error
 		actionDone = True
 
 # if no action done : we do "all" ...
@@ -102,4 +136,13 @@ if actionDone == False:
 	exit(-1)
 
 if number_of_error != 0:
+	debug.info("Detected " + str(number_of_error) + " ERROR(s) on " + str(len(summary)) + " files")
+	for elem in summary:
+		if elem[1] != 0:
+			debug.info(elem[0] + "\r\t\t\t\t\t\t [ERROR] " + str(elem[1]))
+		else:
+			debug.info(elem[0] + "\r\t\t\t\t\t\t [ OK  ]")
 	exit(-1);
+
+debug.info("[ OK  ]")
+exit(0);

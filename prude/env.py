@@ -90,6 +90,8 @@ def get_local_filter():
 				# specific control check
 				if elem == "!NO_CAPITAL_LETTER":
 					filter_list[0]["check-capital"] = False
+				elif elem == "!CAPITAL_LETTER":
+					filter_list[0]["check-capital"] = True
 				else:
 					debug.error("unknows parameter: '" + elem + "'")
 				continue
