@@ -17,7 +17,7 @@ def readme():
 # https://pypi.python.org/pypi?%3Aaction=list_classifiers
 setup(name='prude',
       version='0.2.0',
-      description='Prude is a simple parser thacj check word error (CamelCase and snake_case)',
+      description='Prude is a simple parser that check word error (CamelCase variable, snake_case variable and Documentation)',
       long_description=readme(),
       url='http://github.com/HeeroYui/prude',
       author='Edouard DUPIN',
@@ -28,14 +28,12 @@ setup(name='prude',
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
-        'Topic :: Software Development :: Compilers',
+        'Topic :: Software Development :: Build Tools',
+        'Topic :: Software Development :: Documentation',
+        'Topic :: Software Development :: Testing'
       ],
-      keywords='documentation over doxygen',
+      keywords='language checker in code',
       scripts=['bin/prude'],
-      # Does not work on MacOs
-      #data_file=[
-      #    ('/etc/bash_completion.d', ['bash-autocompletion/lutin']),
-      #],
       include_package_data = True,
       zip_safe=False)
 

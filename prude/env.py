@@ -44,7 +44,7 @@ def read_file_property(folder):
 		else:
 			continue
 		debug.debug("Load config file:" + os.path.join(folder,ff_file))
-		data = file_read_data(os.path.join(prude_root_path,ff_file))
+		data = file_read_data(os.path.join(folder,ff_file))
 		for elem in data.split("\n"):
 			if elem == "":
 				continue

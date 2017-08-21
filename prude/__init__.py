@@ -85,8 +85,8 @@ def recursive_get(path):
 		for filename in filenames:
 			#debug.info(os.path.join(root,filename))
 			if     len(filename) > 2 \
-			   and (    ff_file[-3:].lower() == ".d" \
-			         or ff_file[-3:].lower() == ".o"):
+			   and (    filename[-3:].lower() == ".d" \
+			         or filename[-3:].lower() == ".o"):
 				pass
 			else:
 				out.append(os.path.join(root,filename))
