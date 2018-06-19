@@ -45,7 +45,7 @@ generic_cpp_type = [
 	"pragma",
 	"struct",
 	"NULL",
-	"nullptr",
+	"null",
 	"sizeof",
 	# generic names:
 	"openGL",
