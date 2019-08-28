@@ -19,6 +19,7 @@ from . import module
 
 myArgs = arguments.doxyArg()
 myArgs.add(arguments.ArgDefine("h", "help", desc="Display this help"))
+myArgs.add(arguments.ArgDefine("",  "version", desc="Display the application version"))
 myArgs.add_section("option", "Can be set one time in all case")
 myArgs.add(arguments.ArgDefine("v", "verbose", list=[["0","None"],["1","error"],["2","warning"],["3","info"],["4","debug"],["5","verbose"],["6","extreme_verbose"]], desc="display makefile debug level (verbose) default =2"))
 myArgs.add(arguments.ArgDefine("C", "color", desc="Display makefile output in color"))
@@ -33,6 +34,17 @@ def usage(full=False):
 	# generic argument displayed : 
 	myArgs.display()
 	print("	ex: " + sys.argv[0] + " myFile1.cpp")
+	exit(0)
+
+##
+## @brief Display the version of this package.
+##
+def version():
+	color = debug.get_color_set()
+	import pkg_resources
+	print("version: " + str(pkg_resources.get_distribution('prude').version))
+	foldername = os.path.dirname(__file__)
+	print("source folder is: " + foldername)
 	exit(0)
 
 def check_boolean(value):
@@ -53,6 +65,10 @@ def parseGenericArg(argument, active):
 	if argument.get_option_name() == "help":
 		if active==False:
 			usage()
+		return True
+	elif argument.get_option_name() == "version":
+		if active == False:
+			version()
 		return True
 	elif argument.get_option_name() == "recursive":
 		if active==False:
