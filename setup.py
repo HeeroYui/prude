@@ -43,6 +43,7 @@ setup(name='prude',
         'Topic :: Software Development :: Documentation',
         'Topic :: Software Development :: Testing'
       ],
+      long_description_content_type="text/markdown",
       keywords='language checker in code',
       scripts=['bin/prude'],
       include_package_data = True,

@@ -3,22 +3,8 @@ Prude
 
 `prude` is a generic code annalyser to check ```language``` error. The ```language``` check is the english.
 
+[![Badge](https://badge.fury.io/py/prude.png](https://pypi.python.org/pypi/prude)
 
-.. image:: https://badge.fury.io/py/prude.png
-    :target: https://pypi.python.org/pypi/prude
-
-Release (master)
-----------------
-
-.. image:: https://travis-ci.org/HeeroYui/prude.svg?branch=master
-    :target: https://travis-ci.org/HeeroYui/prude
-
-
-Developement (dev)
-------------------
-
-.. image:: https://travis-ci.org/HeeroYui/prude.svg?branch=dev
-    :target: https://travis-ci.org/HeeroYui/prude
 
 Instructions
 ------------
@@ -40,26 +26,31 @@ Installation
 Requirements: ``Python >= 2.7`` and ``pip``
 
 Just run:
-
-  pip install prude
+```
+pip install prude
+```
 
 Install pip on debian/ubuntu:
-
-  sudo apt-get install pip
+```
+sudo apt-get install pip
+```
 
 Install pip on ARCH-linux:
-
-  sudo pacman -S pip
+```
+sudo pacman -S pip
+```
 
 Install pip on MacOs:
-
-  sudo easy_install pip
+```
+sudo easy_install pip
+```
 
 developpement for prude:
-
-  git clone http://github.com/HeeroYui/prude/
-  cd prude
-  ./setup.py develop --user
+```
+git clone http://github.com/HeeroYui/prude/
+cd prude
+./setup.py develop --user
+```
 
 Documentation
 -------------
@@ -68,17 +59,19 @@ Usage
 ******
 
 Go to your coding directory and execute:
-
+```
   prude yourFileToParce.cpp
   # OR (multiple files)
   prude yourFileToParce.cpp other_file.py and.txt
   # simply the path
   prude .
+```
 
 You can use some options:
-
+```
   --color/-C to have beautifull color check
   --recursive/-r Parse all under directories
+```
 
 Create exceptions:
 ******************
@@ -88,7 +81,7 @@ prude parse all upper folder to find all file ".prude_*" and add it in the list 
 The search end when find the file ".prude".
 
 you can have:
-
+```
   root_path
     --> .prude
     --> .prude_lua
@@ -100,6 +93,7 @@ you can have:
                 --> my_file_cpp.cpp
           --> sub_second
                 --> file_c.c
+```
 
 The check of the file ```my_file_cpp.cpp``` use all the .prude* file and the file ```file_c.c``` only use the file on the root_path
 
